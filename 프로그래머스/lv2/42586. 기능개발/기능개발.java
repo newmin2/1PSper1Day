@@ -6,10 +6,11 @@ class Solution {
         ArrayList<Integer>list = new ArrayList<>();
         // Queue <Integer> q = new LinkedList<>();
         for(int i= speeds.length-1; i>=0;i--){
-            if((100-progresses[i])%speeds[i]==0)
-                stack.push((100-progresses[i])/speeds[i]);
-            else
-                stack.push((100-progresses[i])/speeds[i]+1);
+            stack.push((100-progresses[i]-1)/speeds[i]+1);
+            // if((100-progresses[i])%speeds[i]==0)
+            //     stack.push((100-progresses[i])/speeds[i]);
+            // else
+            //     stack.push((100-progresses[i])/speeds[i]+1);
         }
         while(!stack.isEmpty()){
             int cnt=1;

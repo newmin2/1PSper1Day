@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Main{
+public class Main {
     static void nnm(int depth){
         if (depth == m) {
             for (int i : arr) {

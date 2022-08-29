@@ -4,13 +4,13 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main{
     static void nnm(int depth){
         if (depth == m) {
             for (int i : arr) {
-                sb.append(i).append(" ");
+                sb.append(i).append(' ');
             }
-            sb.append("\n");
+            sb.append('\n');
             return;
         }
         for (int i = 0; i < n; i++) {

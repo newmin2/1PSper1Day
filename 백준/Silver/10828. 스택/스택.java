@@ -1,39 +1,55 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args)throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(bf.readLine());
-        Stack<Integer>stack = new Stack<>();
-        for(int i=0; i<N; i++){
-            StringTokenizer st = new StringTokenizer(bf.readLine());
-            String s1 = st.nextToken();
-            String s2 = null;
-            if(st.hasMoreTokens())
-                s2 = st.nextToken();
-            if(s1.equals("push"))
-                stack.push(Integer.parseInt(s2));
-            else if(s1.equals("top"))
-                if(!stack.isEmpty())
-                    System.out.println(stack.peek());
-                else
-                    System.out.println(-1);
-            else if(s1.equals("pop"))
-                if(!stack.isEmpty())
-                    System.out.println(stack.pop());
-                else
-                    System.out.println(-1);
-            else if(s1.equals("empty"))
-                if(stack.isEmpty())
-                    System.out.println(1);
-                else
-                    System.out.println(0);
-            else if(s1.equals("size"))
-                System.out.println(stack.size());
+    static class Stack{
+        Stack(){
+
         }
+        int[] arr = new int[10001];
+        int cursor = -1;
+        int limit = arr.length-1;
+
+        void push(int x){
+            if(cursor==limit) return;
+            arr[++cursor]=x;
+        }
+        int pop(){
+            if(isEmpty()) return -1;
+            int tmp = arr[cursor];
+            arr[cursor--]=0;
+            return tmp;
+        }
+        int size(){
+            return cursor+1;
+        }
+        int empty(){
+            return isEmpty()? 1:0;
+        }
+        int top(){
+            if(isEmpty()) return -1;
+            return arr[cursor];
+        }
+        boolean isEmpty(){
+            return cursor==-1;
+        }
+
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int n = Integer.parseInt(bf.readLine());
+        Stack stack = new Stack();
+        for(int i=0;i<n;i++){
+            String s = bf.readLine();
+            if(s.equals("top")) bw.write(stack.top()+"\n");
+            else if(s.equals("size")) bw.write(stack.size()+"\n");
+            else if(s.equals("empty")) bw.write(stack.empty()+"\n");
+            else if(s.equals("pop")) bw.write(stack.pop()+"\n");
+            else{
+                stack.push(Integer.parseInt(s.split(" ")[1]));
+            }
+        }
+        bw.flush();
+        bw.close();
     }
 }

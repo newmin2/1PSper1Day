@@ -2,22 +2,23 @@ import java.io.*;
 import java.util.*;
 
 public class Main{
-    static int[] arr,rank;
+    static int[] arr;
     static void union(int x, int y){
         x= find(x);
         y =find(y);
         if(x==y)return;
 
-        if(rank[x]>rank[y]){
-            int tmp =x;
-            x = y;
-            y= tmp;
+        if(arr[x]<arr[y]){
+            arr[x]+=arr[y];
+            arr[y]=x;
+        }else{
+            arr[y]+=arr[x];
+            arr[x]=y;
         }
-        arr[x]=y;
-        if(rank[x]==rank[y]) rank[y]++;
+
     }
     static int find(int x){
-        if(arr[x]==x){
+        if(arr[x]<0){
             return x;
         }
         return arr[x]=find(arr[x]);
@@ -30,10 +31,8 @@ public class Main{
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
         arr = new int[n+1];
-        rank = new int[n+1];
         for(int i=0;i<arr.length;i++){
-            arr[i]=i;
-            rank[i]=1;
+            arr[i]=-1;
         }
         for(int i=0;i<m;i++){
             st= new StringTokenizer(bf.readLine());

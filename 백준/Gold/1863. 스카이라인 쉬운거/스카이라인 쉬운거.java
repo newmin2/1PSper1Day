@@ -5,40 +5,34 @@ import java.util.*;
 
 
 public class Main {
-    static class Building{
-        int x,y;
-        Building(int x, int y){
-            this.x=x;
-            this.y=y;
-        }
-    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(bf.readLine());
         StringTokenizer st;
-        PriorityQueue<Building>pq = new PriorityQueue<>(Comparator.comparingInt(o->o.x));
-        pq.offer(new Building(0,0));
-        pq.offer(new Building(10000001,0));
+        Queue<Integer> q = new ArrayDeque<>();
+        Stack<Integer> stack = new Stack<>();
+        q.offer(0);
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(bf.readLine());
-            pq.offer(new Building(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken())));
+            st.nextToken();
+            q.offer(Integer.parseInt(st.nextToken()));
         }
-        Stack<Integer>stack = new Stack<>();
-        int sum=0;
-        Building b = pq.poll();
-        stack.push(b.y);
-        while(!pq.isEmpty()){
-            b = pq.poll();
-            if(stack.peek()>b.y){
-                while(!stack.isEmpty()&&stack.peek()>b.y){
+        q.offer(0);
+        int sum = 0;
+        stack.push(0);
+        while (!q.isEmpty()) {
+            int b = q.poll();
+            if (stack.peek() > b) {
+                while (!stack.isEmpty() && stack.peek() > b) {
                     stack.pop();
                     sum++;
                 }
-                if(stack.isEmpty()||stack.peek()!=b.y) {
-                    stack.push(b.y);
+                if (stack.isEmpty() || stack.peek() != b) {
+                    stack.push(b);
                 }
-            }else if(stack.peek()<b.y){
-                stack.push(b.y);
+            } else if (stack.peek() < b) {
+                stack.push(b);
             }
         }
         System.out.println(sum);

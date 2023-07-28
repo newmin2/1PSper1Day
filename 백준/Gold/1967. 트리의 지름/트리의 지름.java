@@ -15,18 +15,18 @@ public class Main {
     }
     static boolean[] visited;
     static void dfs(int start, int sum){
-
-        for(int i=0;i<list[start].size();i++){
-            Tree tree = list[start].get(i);
-            if(visited[tree.to])continue;
-            visited[start]=true;
-            dfs(tree.to, sum+tree.value);
-            visited[start]=false;
-        }
         if(sum>max){
             max=sum;
             idx=start;
         }
+        for(int i=0;i<list[start].size();i++){
+            Tree tree = list[start].get(i);
+            if(visited[tree.to])continue;
+            visited[tree.to]=true;
+            dfs(tree.to, sum+tree.value);
+            visited[tree.to]=false;
+        }
+
     }
     static List<Tree>[] list;
 
@@ -43,7 +43,10 @@ public class Main {
             list[info[0]].add(new Tree(info[1],info[2]));
             list[info[1]].add(new Tree(info[0],info[2]));
         }
+        visited[1]=true;
         dfs(1,0);
+        visited[1]=false;
+        visited[idx]=true;
         dfs(idx,0);
         System.out.println(max);
     }

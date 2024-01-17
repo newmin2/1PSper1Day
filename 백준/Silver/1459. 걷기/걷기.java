@@ -13,12 +13,10 @@ public class Main {
         if(2*w<=s){
             System.out.println((long)w*(x+y));
         }else{
-            while(x!=0&&y!=0){
-                --x;
-                --y;
-                cnt+=s;
-            }
+            long min = Math.min(x,y);
             long max = Math.max(x,y);
+            cnt+=min*s;
+            max-=min;
             if(max==1){
                 System.out.println(cnt+w);
             }else{

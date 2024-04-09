@@ -1,47 +1,57 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    static void dfs(int start,int ori){
-        for(int i:list[start]){
-            if(visited[i])continue;
+    static int max = Integer.MIN_VALUE;
+    static List<Integer>[] list;
+    static int[] memo;
+    static int n,m;
+
+    static void hacking(){
+        boolean[] visited;
+        Queue<Integer>q = new ArrayDeque<>();
+        for(int i=1;i<=n;i++){
+            q.offer(i);
+            visited = new boolean[n+1];
             visited[i]=true;
-            cnt[ori]++;
-            dfs(i,ori);
+            int cnt = 0;
+            while(!q.isEmpty()){
+                List<Integer> conn = list[q.poll()];
+                for (int com : conn) {
+                    if (visited[com]) continue;
+                    visited[com] = true;
+                    q.offer(com);
+                    ++cnt;
+                }
+            }
+            memo[i]=cnt;
+            max = Math.max(cnt,max);
         }
     }
-    static List<Integer>[] list;
-    static int[] cnt;
-    static boolean[] visited;
+
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(bf.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-        list= new ArrayList[n+1];
-        cnt = new int[n+1];
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        list = new ArrayList[n+1];
         for(int i=1;i<=n;i++){
-            list[i]= new ArrayList<>();
+            list[i] = new ArrayList<>();
         }
+
         for(int i=0;i<m;i++){
-            st =new StringTokenizer(bf.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            list[b].add(a);
+            st = new StringTokenizer(bf.readLine());
+            int sub = Integer.parseInt(st.nextToken());
+            int dom = Integer.parseInt(st.nextToken());
+            list[dom].add(sub);
         }
-        int max=-1;
+
+        memo = new int[n+1];
+        hacking();
         StringBuilder sb = new StringBuilder();
         for(int i=1;i<=n;i++){
-            visited= new boolean[n+1];
-            visited[i]=true;
-            dfs(i,i);
-            max=Math.max(max,cnt[i]);
-        }
-        for(int i=1;i<=n;i++){
-            if(cnt[i]==max){
-                sb.append(i).append(" ");
+            if(memo[i]==max){
+                sb.append(i).append(' ');
             }
         }
         System.out.println(sb);
